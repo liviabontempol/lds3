@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página do Professor</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Sistema de Mérito - Professor</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="cadastrarEmpresa.html">Cadastrar Empresa</a></li>
+            <li><a href="paginaAluno.html">Página do Aluno</a></li>
+            <li><a href="paginaProfessor.html">Página do Professor</a></li>
+            <li><a href="paginaEmpresaParceira.html">Cadastro de Vantagens</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section>
+            <h2>Enviar Moedas</h2>
+            <form action="/professor/enviar-moedas" method="POST">
+                <label for="aluno">Aluno:</label>
+                <input type="text" id="aluno" name="aluno" required>
+
+                <label for="motivo">Motivo:</label>
+                <textarea id="motivo" name="motivo" required></textarea>
+
+                <label for="quantidade">Quantidade de Moedas:</label>
+                <input type="number" id="quantidade" name="quantidade" required>
+
+                <button type="submit">Enviar Moedas</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Extrato de Transações</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Aluno</th>
+                        <th>Quantidade</th>
+                        <th>Motivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>01/12/2024</td>
+                        <td>João Silva</td>
+                        <td>50</td>
+                        <td>Participação em aula</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Sistema de Mérito. Todos os direitos reservados.</p>
+    </footer>
+    <script src="../js/paginaProfessor.js"></script>
+</body>
+</html>
