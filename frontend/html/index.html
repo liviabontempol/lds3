@@ -12,9 +12,8 @@
         <nav>
             <ul>
                 <li><a href="cadastroaluno.html">Cadastro de Aluno</a></li>
-                <li><a href="#">Cadastro de Empresa</a></li>
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Login Professor</a></li>
+                <li><a href="cadastroempresa.html">Cadastro de Empresa</a></li>
+                <li><a href="login.html">Login</a></li>
             </ul>
         </nav>
     </header>
@@ -34,18 +33,18 @@
 
 <script>
 
-    function getAlunos(this){
-fetch("http://127.0.0.1:8080/alunos")
-  .then((response) => {
-    // If the response is not 2xx, throw an error
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
+//     function getAlunos(this){
+// fetch("http://127.0.0.1:8080/alunos")
+//   .then((response) => {
+//     // If the response is not 2xx, throw an error
+//     if (!response.ok) {
+//       throw new Error("Network response was not ok");
+//     }
 
-    // If the response is 200 OK, return the response in JSON format.
-    return response.json();
-  })
-  .then((data) => console.log(data)) // You can continue to do something to the response.
-  .catch((error) => console.error("Fetch error:", error)); // In case of an error, it will be captured and logged.
-}
+//     // If the response is 200 OK, return the response in JSON format.
+//     return response.json();
+//   })
+//   .then((data) => console.log(data)) // You can continue to do something to the response.
+//   .catch((error) => console.error("Fetch error:", error)); // In case of an error, it will be captured and logged.
+// }
 </script>

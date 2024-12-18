@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Sistema de Mérito - Login</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required>
+                
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+
+            
+                <button type="submit">Entrar</button>
+            </form>
+            <p id="mensagem"></p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Sistema de Mérito. Todos os direitos reservados.</p> 
+    </footer>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Impede o comportamento padrão do formulário
+            
+            // Captura os dados do formulário
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Cria o objeto no formato esperado pelo backend
+            const loginData = {
+                email: email,
+                password: password
+            };
+
+            try {
+                // Faz a requisição para o backend
+                const response = await fetch('http://localhost:8080/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(loginData)
+                });
+
+                const mensagem = document.getElementById('mensagem');
+
+                if (response.ok) {
+                    // Login bem-sucedido, recebe os dados do backend
+                    const data = await response.json();
+
+                    mensagem.style.color = 'green';
+                    mensagem.textContent = 'Login realizado com sucesso!';
+                    console.log('Token recebido:', data.token);
+                    console.log('Dados do usuário:', data.user);
+
+                    // Salva o token e os dados do usuário no localStorage
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    localStorage.setItem('userType', data.userType);
+
+                    // Redireciona com base no tipo do usuário
+                    if (data.userType === "Aluno") {
+                        window.location.href = "/frontend/html/paginaAluno.html";
+                    } else if (data.userType === "Empresa") {
+                        window.location.href = "/frontend/html/paginaEmpresaParceira.html";
+                    } else if (data.userType === "Professor") {
+                        window.location.href = "/frontend/html/paginaProfessor.html";
+                    } else {
+                        mensagem.style.color = 'red';
+                        mensagem.textContent = 'Tipo de usuário desconhecido.';
+                    }
+                } else {
+                    mensagem.style.color = 'red';
+                    mensagem.textContent = 'Email ou senha inválidos. Tente novamente.';
+                }
+            } catch (error) {
+                console.error('Erro ao realizar login:', error);
+                document.getElementById('mensagem').style.color = 'red';
+                document.getElementById('mensagem').textContent = 'Erro ao conectar com o servidor.';
+            }
+        });
+    </script>
+</body>
+</html>
