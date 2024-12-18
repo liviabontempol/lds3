@@ -48,6 +48,8 @@ public class AuthenticationController {
         var auth = this.authenticationManager.authenticate(usernamePassword);
         User authenticatedUser = (User) auth.getPrincipal();
 
+        System.out.println("Usuário autenticado: " + authenticatedUser.getEmail());
+
         String token = tokenService.generateToken(authenticatedUser);
 
         userRepository.save(authenticatedUser);

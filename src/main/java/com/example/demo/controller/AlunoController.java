@@ -20,7 +20,6 @@ import java.util.Optional;
 
 
 @RestController
-@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class AlunoController {
 
     @Autowired
@@ -29,7 +28,7 @@ public class AlunoController {
     @Autowired
     AlunoService alunoService;
     
-    @GetMapping("/alunos")
+    @GetMapping("/getAlunos")
     public ResponseEntity<List<Aluno>> visualizarTodosOsAlunos() {
         List<Aluno> alunos = alunoRepository.findAll();
         if (alunos.isEmpty()) {

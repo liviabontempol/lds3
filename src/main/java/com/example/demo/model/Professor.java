@@ -16,6 +16,10 @@ public class Professor extends User {
     private int saldo;
     private String instituicao;
 
+    @OneToMany
+    private List<Transacao> transacaoList;
+
+
     public Professor(String nome, String email, String password, String endereco, String instituicao) {
         super(nome, email, password, endereco);
         this.instituicao = instituicao;
@@ -23,10 +27,6 @@ public class Professor extends User {
         this.role = UserRole.USER;
     }
 
-
-
-    @OneToMany
-    private List<Transacao> transacaoList;
 
 
     public void addTransacao(Transacao transacao){

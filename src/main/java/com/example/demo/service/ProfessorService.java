@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -85,36 +86,38 @@ public class ProfessorService{
         }
     }
 
-    @PostConstruct // Chama automaticamente após a inicialização do contexto Spring
-    public void generateProfessors() {
-        // Lista de emails de instituições
-        String[] instituicoes = {
-                "pucminas@gmail.com",
-                "ifmg@gmail.com",
-                "ufmg@gmail.com",
-                "sesi@gmail.com"
-        };
+    // @PostConstruct // Chama automaticamente após a inicialização do contexto Spring
+    // public void generateProfessors() {
+    //     // Lista de emails de instituições
+    //     String[] instituicoes = {
+    //             "pucminas@gmail.com",
+    //             "ifmg@gmail.com",
+    //             "ufmg@gmail.com",
+    //             "sesi@gmail.com"
+    //     };
 
-        // Gerar 20 professores
-        List<Professor> professores = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            String nome = "Professor" + (i + 1);
-            String email = "professor" + (i + 1) + "@example.com";
-            String password = "senha123";
-            String endereco = "Endereço " + (i + 1);
+    //     // Gerar 20 professores
+    //     List<Professor> professores = new ArrayList<>();
+    //     for (int i = 0; i < 20; i++) {
+    //         String nome = "Professor" + (i + 1);
+    //         String email = "professor" + (i + 1) + "@example.com";
+    //         String password = "senha123";
+    //         String endereco = "Endereço " + (i + 1);
 
-            // Alterna entre os emails de instituições
-            String instituicao = instituicoes[i % instituicoes.length];
+    //         // Alterna entre os emails de instituições
+    //         String instituicao = instituicoes[i % instituicoes.length];
 
-            // Cria o objeto Professor
-            Professor professor = new Professor(nome, email, password, endereco, instituicao);
-            professores.add(professor);
-        }
+    //         String encryptedPassword = new BCryptPasswordEncoder().encode(password);
 
-        // Salvar no banco de dados
-        userRepository.saveAll(professores);
+    //         // Cria o objeto Professor
+    //         Professor professor = new Professor(nome, email, encryptedPassword, endereco, instituicao);
+    //         professores.add(professor);
+    //     }
 
-        System.out.println("Professores gerados com sucesso!");
-    }
+    //     // Salvar no banco de dados
+    //     userRepository.saveAll(professores);
+
+    //     System.out.println("Professores gerados com sucesso!");
+    // }
     
 }

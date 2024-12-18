@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -7,60 +7,235 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Sistema de Mérito - Professor</h1>
-    </header>
+<header>
+    <h1>Sistema de Mérito - Página do Professor</h1>
     <nav>
-        <ul>
-            <li><a href="cadastrarEmpresa.html">Cadastrar Empresa</a></li>
-            <li><a href="paginaAluno.html">Página do Aluno</a></li>
-            <li><a href="paginaProfessor.html">Página do Professor</a></li>
-            <li><a href="paginaEmpresaParceira.html">Cadastro de Vantagens</a></li>
-        </ul>
+        <button id="logoutButton">Sair</button>
     </nav>
-    <main>
-        <section>
-            <h2>Enviar Moedas</h2>
-            <form action="/professor/enviar-moedas" method="POST">
-                <label for="aluno">Aluno:</label>
-                <input type="text" id="aluno" name="aluno" required>
+</header>
+<main>
+    <section>
+        <h2>Bem-vindo(a), <span id="professorNome"></span>!</h2>
+        <div class="professor-info">
+            <p><strong>Email:</strong> <span id="professorEmail"></span></p>
+            <p><strong>Saldo:</strong> R$ <span id="professorSaldo"></span></p>
+            <p><strong>Instituição:</strong> <span id="professorInstituicao"></span></p>
+            <p><strong>Endereço:</strong> <span id="professorEndereco"></span></p>
+        </div>
+    </section>
+    <section>
+        <h2>Transações Recentes</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Nome do Aluno</th>
+                    <th>Nome do Professor</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody id="transacoesTableBody">
+                <!-- As transações serão carregadas dinamicamente aqui -->
+            </tbody>
+        </table>
+    </section>
+    <section>
+        <h2>Lista de Alunos</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody id="alunosTableBody">
+                <!-- Os alunos serão adicionados dinamicamente aqui -->
+            </tbody>
+        </table>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2024 Sistema de Mérito. Todos os direitos reservados.</p>
+</footer>
 
-                <label for="motivo">Motivo:</label>
-                <textarea id="motivo" name="motivo" required></textarea>
+<!-- Modal para transferência -->
+<div id="transferModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid black; z-index: 1000;">
+    <h2>Transferir Pontos</h2>
+    <form id="transferForm">
+        <p>Aluno: <span id="alunoEmail"></span></p>
+        <label for="valorTransferencia">Valor:</label>
+        <input type="number" id="valorTransferencia" name="valorTransferencia" min="1" required>
+        <button type="submit">Transferir</button>
+        <button type="button" onclick="fecharModal()">Cancelar</button>
+    </form>
+</div>
 
-                <label for="quantidade">Quantidade de Moedas:</label>
-                <input type="number" id="quantidade" name="quantidade" required>
+<script>
+    let emailAlunoSelecionado;
 
-                <button type="submit">Enviar Moedas</button>
-            </form>
-        </section>
+    // Recupera os dados do professor
+    const user = JSON.parse(localStorage.getItem('user'));
+    const emailProfessor = user.email;
 
-        <section>
-            <h2>Extrato de Transações</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Aluno</th>
-                        <th>Quantidade</th>
-                        <th>Motivo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>01/12/2024</td>
-                        <td>João Silva</td>
-                        <td>50</td>
-                        <td>Participação em aula</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-    </main>
+    // Exibe os dados do professor na página
+    function atualizarDadosProfessor() {
+        document.getElementById('professorNome').textContent = user.nome;
+        document.getElementById('professorEmail').textContent = user.email;
+        document.getElementById('professorSaldo').textContent = user.saldo.toFixed(2);
+        document.getElementById('professorInstituicao').textContent = user.instituicao;
+        document.getElementById('professorEndereco').textContent = user.endereco;
+    }
 
-    <footer>
-        <p>&copy; 2024 Sistema de Mérito. Todos os direitos reservados.</p>
-    </footer>
-    <script src="../js/paginaProfessor.js"></script>
+    atualizarDadosProfessor();
+
+    // Botão de logout
+    document.getElementById('logoutButton').addEventListener('click', () => {
+        localStorage.clear(); // Limpa o localStorage
+        window.location.href = "/frontend/html/login.html"; // Redireciona para a página de login
+    });
+
+    // Função para carregar as transações
+    function carregarTransacoes() {
+        const transacoesTableBody = document.getElementById('transacoesTableBody');
+        const transacoes = user.transacaoList;
+
+        transacoesTableBody.innerHTML = ''; // Limpa o conteúdo anterior
+
+        if (transacoes.length === 0) {
+            transacoesTableBody.innerHTML = '<tr><td colspan="3">Nenhuma transação encontrada.</td></tr>';
+            return;
+        }
+
+        transacoes.forEach(transacao => {
+            const row = document.createElement('tr');
+
+            const alunoCell = document.createElement('td');
+            alunoCell.textContent = transacao.nomeAluno;
+
+            const professorCell = document.createElement('td');
+            professorCell.textContent = transacao.nomeProfessor;
+
+            const valorCell = document.createElement('td');
+            valorCell.textContent = `R$ ${transacao.valor.toFixed(2)}`;
+
+            row.appendChild(alunoCell);
+            row.appendChild(professorCell);
+            row.appendChild(valorCell);
+
+            transacoesTableBody.appendChild(row);
+        });
+    }
+
+    // Função para buscar e exibir os alunos
+    async function carregarAlunos() {
+        try {
+            const response = await fetch('http://localhost:8080/getAlunos');
+
+            if (response.ok) {
+                const alunos = await response.json();
+
+                const tableBody = document.getElementById('alunosTableBody');
+                tableBody.innerHTML = ''; // Limpa o conteúdo anterior
+
+                alunos.forEach(aluno => {
+                    const row = document.createElement('tr');
+
+                    const nomeCell = document.createElement('td');
+                    nomeCell.textContent = aluno.nome;
+
+                    const emailCell = document.createElement('td');
+                    emailCell.textContent = aluno.email;
+
+                    const actionCell = document.createElement('td');
+                    const transferButton = document.createElement('button');
+                    transferButton.textContent = 'Transferir';
+                    transferButton.addEventListener('click', () => abrirModal(aluno.email));
+                    actionCell.appendChild(transferButton);
+
+                    row.appendChild(nomeCell);
+                    row.appendChild(emailCell);
+                    row.appendChild(actionCell);
+
+                    tableBody.appendChild(row);
+                });
+            } else {
+                console.error('Erro ao buscar alunos:', response.statusText);
+                alert('Erro ao buscar alunos.');
+            }
+        } catch (error) {
+            console.error('Erro ao conectar com o servidor:', error);
+            alert('Erro ao conectar com o servidor.');
+        }
+    }
+
+    // Função para abrir o modal
+    function abrirModal(emailAluno) {
+        emailAlunoSelecionado = emailAluno;
+        document.getElementById('alunoEmail').textContent = emailAluno;
+        document.getElementById('transferModal').style.display = 'block';
+    }
+
+    // Função para fechar o modal
+    function fecharModal() {
+        document.getElementById('transferModal').style.display = 'none';
+    }
+
+    // Enviar transferência
+    document.getElementById('transferForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const valor = parseInt(document.getElementById('valorTransferencia').value);
+
+        const transferenciaDTO = {
+            emailAluno: emailAlunoSelecionado,
+            valor: valor,
+            emailProfessor: emailProfessor
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/professor/transferir-pontos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(transferenciaDTO)
+            });
+
+            if (response.ok) {
+                const message = await response.text();
+                alert(message);
+                atualizarInterfaceApósTransferencia(emailAlunoSelecionado, valor);
+                fecharModal();
+            } else {
+                const errorMessage = await response.text();
+                alert('Erro ao transferir pontos: ' + errorMessage);
+            }
+        } catch (error) {
+            console.error('Erro ao transferir pontos:', error);
+            alert('Erro ao transferir pontos.');
+        }
+    });
+
+    // Atualiza a interface após realizar a transferência
+    function atualizarInterfaceApósTransferencia(emailAluno, valor) {
+        // Atualiza o saldo do professor
+        user.saldo -= valor;
+        localStorage.setItem('user', JSON.stringify(user));
+        atualizarDadosProfessor();
+
+        // Adiciona a transação na tabela
+        const novaTransacao = {
+            nomeAluno: emailAluno,
+            nomeProfessor: user.nome,
+            valor: valor
+        };
+
+        user.transacaoList.push(novaTransacao);
+        carregarTransacoes();
+    }
+
+    // Carrega as transações e os alunos ao carregar a página
+    carregarTransacoes();
+    carregarAlunos();
+</script>
 </body>
-</html> -->
+</html>

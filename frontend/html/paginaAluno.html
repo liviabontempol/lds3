@@ -3,151 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página do Aluno</title>
-    <style>
-        /* Estilo Global */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-
-        header {
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            padding: 1rem 0;
-        }
-
-        nav ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: center;
-            padding: 0;
-            background-color: #138325;
-        }
-
-        nav ul li {
-            margin: 0 15px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-        }
-
-        main {
-            margin: 20px;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            color: #4CAF50;
-        }
-
-        p {
-            font-size: 1rem;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #178848;
-        }
-
-        footer {
-            text-align: center;
-            padding: 1rem 0;
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        /* Popup */
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-        }
-
-        .popup table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .popup table th, .popup table td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .popup table th {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-    </style>
+    <title>Sistema de Mérito - Aluno</title>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Sistema de Mérito - Aluno</h1>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="index.html" onclick="logout()">Sair</a></li>
-        </ul>
-    </nav>
-    <main>
-        <!-- Informações do Aluno -->
-        <section>
-            <h2>Informações do Aluno</h2>
-            <p><strong>Nome:</strong> <span id="nomeAluno"></span></p>
-            <p><strong>Curso:</strong> <span id="cursoAluno"></span></p>
-            <p><strong>Instituição:</strong> <span id="instituicaoAluno"></span></p>
-            <p><strong>Saldo Atual:</strong> <span id="saldoAluno"></span> Moedas</p>
-        </section>
+<header>
+    <h1>Sistema de Mérito - Aluno</h1>
+</header>
+<nav>
+    <ul>
+        <li><a href="login.html" onclick="logout()">Sair</a></li>
+    </ul>
+</nav>
+<main>
+    <!-- Informações do Aluno -->
+    <section>
+        <h2>Informações do Aluno</h2>
+        <p><strong>Nome:</strong> <span id="nomeAluno"></span></p>
+        <p><strong>Curso:</strong> <span id="cursoAluno"></span></p>
+        <p><strong>Instituição:</strong> <span id="instituicaoAluno"></span></p>
+        <p><strong>Saldo Atual:</strong> <span id="saldoAluno"></span> Moedas</p>
+    </section>
 
-        <!-- Trocar Moedas -->
-        <section>
-            <h2>Trocar Moedas</h2>
-            <button onclick="abrirPopup()">Selecionar Vantagens</button>
-        </section>
-    </main>
+    <!-- Lista de Transações -->
+    <section>
+        <h2>Transações Realizadas</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Professor</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody id="listaTransacoes">
+                <!-- As transações serão carregadas dinamicamente aqui -->
+            </tbody>
+        </table>
+    </section>
 
-    <!-- Popup -->
-    <div class="popup-overlay" id="popupOverlay"></div>
-    <div class="popup" id="popup">
-        <h2>Selecione uma Vantagem</h2>
-        <table>
+    <!-- Vantagens Adquiridas -->
+    <section>
+        <h2>Vantagens Adquiridas</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Valor</th>
+                    <th>Descrição</th>
+                    <th>Imagem</th>
+                </tr>
+            </thead>
+            <tbody id="vantagensAdquiridas">
+                <!-- As vantagens adquiridas serão carregadas dinamicamente aqui -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Vantagens Disponíveis -->
+    <section>
+        <h2>Vantagens Disponíveis</h2>
+        <table border="1">
             <thead>
                 <tr>
                     <th>Valor</th>
@@ -157,109 +71,190 @@
                 </tr>
             </thead>
             <tbody id="listaVantagens">
-                <tr><td colspan="4">Carregando vantagens...</td></tr>
+                <!-- As vantagens disponíveis serão carregadas dinamicamente aqui -->
             </tbody>
         </table>
-        <button onclick="fecharPopup()">Fechar</button>
-    </div>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2024 Sistema de Mérito. Todos os direitos reservados.</p>
+</footer>
 
-    <footer>
-        <p>&copy; 2024 Sistema de Mérito. Todos os direitos reservados.</p>
-    </footer>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const user = JSON.parse(localStorage.getItem("user"));
 
-    <script>
-        // Função para carregar os dados do aluno
-        document.addEventListener("DOMContentLoaded", function () {
-            const user = JSON.parse(localStorage.getItem("user"));
-
-            if (user) {
-                document.getElementById("nomeAluno").textContent = user.nome;
-                document.getElementById("cursoAluno").textContent = user.curso || "N/A";
-                document.getElementById("instituicaoAluno").textContent = user.emailInstituicao || "N/A";
-                document.getElementById("saldoAluno").textContent = user.saldo || 0;
-            } else {
-                alert("Usuário não autenticado.");
-                window.location.href = "login.html";
-            }
-        });
-
-        // Funções para exibir e ocultar o popup
-        function abrirPopup() {
-            carregarVantagensPopup();
-            document.getElementById("popupOverlay").style.display = "block";
-            document.getElementById("popup").style.display = "block";
-        }
-
-        function fecharPopup() {
-            document.getElementById("popupOverlay").style.display = "none";
-            document.getElementById("popup").style.display = "none";
-        }
-
-        // Função para buscar as vantagens do email da instituição
-        function carregarVantagensPopup() {
-            const user = JSON.parse(localStorage.getItem("user"));
-            const emailInstituicao = user.emailInstituicao;
-
-            const listaVantagens = document.getElementById("listaVantagens");
-            listaVantagens.innerHTML = "<tr><td colspan='4'>Carregando...</td></tr>";
-
-            // Realiza requisição para a API de vantagens
-            fetch(`/empresa/${emailInstituicao}/vantagens`)
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error("Erro ao buscar vantagens.");
-                    }
-                    return response.json();
-                })
-                .then((vantagens) => {
-                    listaVantagens.innerHTML = "";
-
-                    if (vantagens.length === 0) {
-                        listaVantagens.innerHTML = "<tr><td colspan='4'>Nenhuma vantagem disponível.</td></tr>";
-                        return;
-                    }
-
-                    vantagens.forEach((vantagem) => {
-                        const row = `
-                            <tr>
-                                <td>${vantagem.valor}</td>
-                                <td>${vantagem.descricao}</td>
-                                <td><img src="${vantagem.foto}" alt="Imagem da Vantagem" width="100"></td>
-                                <td><button onclick="selecionarVantagem(${vantagem.valor}, '${vantagem.descricao}')">Selecionar</button></td>
-                            </tr>
-                        `;
-                        listaVantagens.innerHTML += row;
-                    });
-                })
-                .catch((error) => {
-                    console.error(error);
-                    listaVantagens.innerHTML = "<tr><td colspan='4'>Erro ao carregar vantagens.</td></tr>";
-                });
-        }
-
-        // Função para selecionar uma vantagem
-        function selecionarVantagem(valor, descricao) {
-            const user = JSON.parse(localStorage.getItem("user"));
-
-            if (user.saldo >= valor) {
-                user.saldo -= valor;
-
-                if (!user.vantagens) user.vantagens = [];
-                user.vantagens.push({ valor, descricao });
-
-                localStorage.setItem("user", JSON.stringify(user));
-                alert(`Vantagem "${descricao}" selecionada com sucesso!`);
-                fecharPopup();
-            } else {
-                alert("Saldo insuficiente para adquirir esta vantagem.");
-            }
-        }
-
-        // Função para logout
-        function logout() {
-            localStorage.clear();
+        if (user && user.emailInstituicao) {
+            carregarDadosAluno(user);
+            carregarTransacoes(user.transacaoList);
+            carregarVantagens(user.emailInstituicao, user.email, user.vantagens || []);
+        } else {
+            alert("Erro ao carregar dados do usuário.");
             window.location.href = "login.html";
         }
-    </script>
+    });
+
+    // Função para carregar os dados do aluno
+    function carregarDadosAluno(user) {
+        document.getElementById("nomeAluno").textContent = user.nome || "N/A";
+        document.getElementById("cursoAluno").textContent = user.curso || "N/A";
+        document.getElementById("instituicaoAluno").textContent = user.emailInstituicao || "N/A";
+        document.getElementById("saldoAluno").textContent = user.saldo || 0;
+    }
+
+    // Função para carregar as transações
+    function carregarTransacoes(transacoes) {
+        const listaTransacoes = document.getElementById("listaTransacoes");
+        listaTransacoes.innerHTML = "";
+
+        if (!transacoes || transacoes.length === 0) {
+            listaTransacoes.innerHTML = "<tr><td colspan='2'>Nenhuma transação encontrada.</td></tr>";
+            return;
+        }
+
+        transacoes.forEach((transacao) => {
+            const row = `
+                <tr>
+                    <td>${transacao.nomeProfessor}</td>
+                    <td>${transacao.valor}</td>
+                </tr>
+            `;
+            listaTransacoes.innerHTML += row;
+        });
+    }
+
+    // Função para carregar as vantagens
+    function carregarVantagens(emailInstituicao, emailAluno, vantagensAdquiridas) {
+        const listaVantagens = document.getElementById("listaVantagens");
+        const listaAdquiridas = document.getElementById("vantagensAdquiridas");
+        listaVantagens.innerHTML = "<tr><td colspan='4'>Carregando...</td></tr>";
+        listaAdquiridas.innerHTML = "";
+
+        fetch(`http://localhost:8080/empresa/${emailInstituicao}/vantagens`)
+            .then((response) => {
+                if (!response.ok) throw new Error("Erro ao buscar vantagens.");
+                return response.json();
+            })
+            .then((vantagens) => {
+                const adquiridasIds = vantagensAdquiridas.map((v) => v.id);
+                const disponiveis = vantagens.filter((v) => !adquiridasIds.includes(v.id));
+                preencherListaVantagens(disponiveis, emailAluno);
+                preencherListaAdquiridas(vantagensAdquiridas);
+            })
+            .catch((error) => {
+                console.error(error);
+                listaVantagens.innerHTML = "<tr><td colspan='4'>Erro ao carregar vantagens.</td></tr>";
+            });
+    }
+
+    // Preenche a tabela de vantagens disponíveis
+    function preencherListaVantagens(vantagens, emailAluno) {
+        const listaVantagens = document.getElementById("listaVantagens");
+        listaVantagens.innerHTML = "";
+
+        if (!vantagens.length) {
+            listaVantagens.innerHTML = "<tr><td colspan='4'>Nenhuma vantagem disponível.</td></tr>";
+            return;
+        }
+
+        vantagens.forEach((vantagem) => {
+            const row = `
+                <tr id="vantagem-${vantagem.id}">
+                    <td>${vantagem.valor}</td>
+                    <td>${vantagem.descricao}</td>
+                    <td><img src="${vantagem.foto}" alt="Imagem da Vantagem" width="100"></td>
+                    <td><button onclick="selecionarVantagem('${emailAluno}', ${vantagem.id}, ${vantagem.valor})">Selecionar</button></td>
+                </tr>
+            `;
+            listaVantagens.innerHTML += row;
+        });
+    }
+
+    // Preenche a tabela de vantagens adquiridas
+    function preencherListaAdquiridas(vantagensAdquiridas) {
+        const listaAdquiridas = document.getElementById("vantagensAdquiridas");
+        listaAdquiridas.innerHTML = "";
+
+        if (!vantagensAdquiridas.length) {
+            listaAdquiridas.innerHTML = "<tr><td colspan='3'>Nenhuma vantagem adquirida.</td></tr>";
+            return;
+        }
+
+        vantagensAdquiridas.forEach((vantagem) => {
+            const row = `
+                <tr>
+                    <td>${vantagem.valor}</td>
+                    <td>${vantagem.descricao}</td>
+                    <td><img src="${vantagem.foto}" alt="Imagem da Vantagem" width="100"></td>
+                </tr>
+            `;
+            listaAdquiridas.innerHTML += row;
+        });
+    }
+
+    // Função para selecionar uma vantagem
+    function selecionarVantagem(emailAluno, vantagemId, valorVantagem) {
+        fetch(`http://localhost:8080/${emailAluno}/vantagens/${vantagemId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then((response) => {
+            if (!response.ok) throw new Error("Erro ao selecionar vantagem.");
+            return response.json();
+        })
+        .then((vantagem) => {
+            alert(`Vantagem "${vantagem.descricao}" selecionada com sucesso!`);
+            atualizarSaldoAluno(valorVantagem);
+            adicionarVantagemAdquirida(vantagem);
+            removerVantagemDisponivel(vantagemId);
+        })
+        .catch((error) => {
+            console.error(error);
+            alert("Erro ao selecionar vantagem. Tente novamente.");
+        });
+    }
+
+    // Atualiza o saldo do aluno após selecionar uma vantagem
+    function atualizarSaldoAluno(valorGasto) {
+        const saldoAluno = document.getElementById("saldoAluno");
+        const novoSaldo = parseInt(saldoAluno.textContent) - valorGasto;
+
+        if (novoSaldo >= 0) {
+            saldoAluno.textContent = novoSaldo;
+            const user = JSON.parse(localStorage.getItem("user"));
+            user.saldo = novoSaldo;
+            localStorage.setItem("user", JSON.stringify(user));
+        } else {
+            alert("Saldo insuficiente!");
+        }
+    }
+
+    // Adiciona a vantagem adquirida à tabela de adquiridas
+    function adicionarVantagemAdquirida(vantagem) {
+        const listaAdquiridas = document.getElementById("vantagensAdquiridas");
+        const row = `
+            <tr>
+                <td>${vantagem.valor}</td>
+                <td>${vantagem.descricao}</td>
+                <td><img src="${vantagem.foto}" alt="Imagem da Vantagem" width="100"></td>
+            </tr>
+        `;
+        listaAdquiridas.innerHTML += row;
+    }
+
+    // Remove a vantagem da lista de disponíveis
+    function removerVantagemDisponivel(vantagemId) {
+        const vantagemRow = document.getElementById(`vantagem-${vantagemId}`);
+        if (vantagemRow) vantagemRow.remove();
+    }
+
+    // Função para logout
+    function logout() {
+        localStorage.clear();
+        window.location.href = "login.html";
+    }
+</script>
 </body>
 </html>
