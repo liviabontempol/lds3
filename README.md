@@ -2,10 +2,9 @@
 Este projeto visa desenvolver um sistema de mérito estudantil que utiliza uma moeda virtual para reconhecer e recompensar os alunos por seus desempenho. Professores podem distribuir moedas aos alunos como forma de reconhecimento por bom comportamento e participação em aula. Os alunos podem trocar essas moedas por produtos e descontos oferecidos por parceiros. O sistema permite que alunos, professores e empresas parceiras se cadastrem, gerenciem suas contas e realizem transações de forma segura e eficiente.
 
 ## Integrantes
-* Francisley Magalhaes
 * Livia Bontempo
 
-## Orientadores
+## Orientador
 * Cristiano de Mâcedo Neto
 
 ## Instruções de utilização
@@ -19,8 +18,6 @@ Os professores já estarão pré-cadastrados no sistema (a instituição envia a
 A cada semestre, os professores recebe um total de mil moedas, que podem ser distribuídas aos seus alunos como forma de reconhecimento por bom comportamento, participação em aula, etcs. Esse total é acumulável no semestre (isto é, se o professor não distribuir todas as moedas num semestre, o total de 1.000 novas moedas será adicionado ao seu saldo corrente).
 
 Para enviar moedas, o professor deve possuir saldo suficiente, indicando qual aluno deverá receber o montante, bem como o motivo pelo qual ele está sendo reconhecido (uma mensagem aberta, obrigatória).
-
-Ao receber uma moeda, o aluno deve ser notificado por email. 
 
 Professores e alunos devem ser capazes de consultar o extrato de sua conta, visualizando o total de moedas que ainda possui, bem como as transações que realizou (para o professor, o envio de moedas; para o aluno, recebimento ou troca de moedas).
 
